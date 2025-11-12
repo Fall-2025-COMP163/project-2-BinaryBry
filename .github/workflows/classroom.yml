@@ -1,0 +1,50 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Inheritance Tests
+      id: inheritance-tests
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Inheritance Tests
+        setup-command: pip install pytest
+        command: python -m pytest tests/test_inheritance.py -v
+        timeout: 10
+        max-score: 20
+    - name: Method Overriding Tests
+      id: method-overriding-tests
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Method Overriding Tests
+        setup-command: pip install pytest
+        command: python -m pytest tests/test_method_overriding.py -v
+        timeout: 10
+        max-score: 20
+    - name: Special Abilities Tests
+      id: special-abilities-tests
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Special Abilities Tests
+        setup-command: pip install pytest
+        command: python -m pytest tests/test_special_abilities.py -v
+        timeout: 10
+        max-score: 15
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        INHERITANCE-TESTS_RESULTS: "${{steps.inheritance-tests.outputs.result}}"
+        METHOD-OVERRIDING-TESTS_RESULTS: "${{steps.method-overriding-tests.outputs.result}}"
+        SPECIAL-ABILITIES-TESTS_RESULTS: "${{steps.special-abilities-tests.outputs.result}}"
+      with:
+        runners: inheritance-tests,method-overriding-tests,special-abilities-tests
