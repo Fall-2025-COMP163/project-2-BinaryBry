@@ -1,10 +1,10 @@
 """
 COMP 163 - Project 2: Character Abilities Showcase
 Name: Bryant Clarke
-Date: 2025-11-12
+Date: 11/5/25
 
-AI Usage: AI assisted with class design, inheritance structure, method overriding,
-polymorphism examples, and comments. I fully reviewed and can explain all code.
+AI Usage: AI assisted with concepts of class design, inheritance structure, method overriding,
+polymorphism examples, and comments. I fully wrote, reviewed, revised, and can explain all code.
 """
 
 # ============================================================================
@@ -64,12 +64,17 @@ class Character:
     
     def __init__(self, name: str, health: int, strength: int, magic: int):
         """Initialize basic character attributes"""
+        """Set the character's name, health, strength, and magic;
+        stored as instance variables"""
         self.name = name
         self.health = int(health)
         self.strength = int(strength)
         self.magic = int(magic)
         # Composition hook: characters can HAVE a weapon
         self.weapon: Optional[Weapon] = None  # defined later
+
+    
+
         
     # --- Composition helpers ---
     def equip_weapon(self, weapon: "Weapon") -> None:
@@ -87,7 +92,6 @@ class Character:
         damage = max(0, self.strength + self._weapon_bonus())
         print(f"{self.name} hits {target.name} for {damage} damage.")
         target.take_damage(damage)
-        
     def take_damage(self, damage: int) -> None:
         """
         Reduces this character's health by the damage amount.
@@ -242,9 +246,9 @@ if __name__ == "__main__":
     print("=" * 50)
     
     # Create one of each character type
-    warrior = Warrior("Sir Galahad")
-    mage = Mage("Merlin")
-    rogue = Rogue("Robin Hood")
+    warrior = Warrior("Mike Tyson")
+    mage = Mage("Muhammad Ali")
+    rogue = Rogue("Floyd Mayweather")
     
     # Display their stats
     print("\n📊 Character Stats:")
